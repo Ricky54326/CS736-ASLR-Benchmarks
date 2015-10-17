@@ -1,20 +1,26 @@
 CC := gcc
 CFLAGS := -pthread -ggdb
-INCLUDE := -I .
+INCLUDE := -I include
 
 CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
 
-PERFORMANCE :=
-	performance2
+PERFORMANCE := \
+	performance3 \
+	performance4
 
-PERFORMANCE_SOURCES := $(addprefix performance/, $(PERFORMANCE))
-PERFORMANCE_SOURCES := $(addsuffix .c, $(PERFORMANCE_SOURCES))
+UTIL := \
+	calc
 
-CLEAN := $(PERFORMANCE)	
+#	performance1 
+#	performance2 
 
-all: $(PERFORMANCE)
+CLEAN := $(PERFORMANCE)	$(UTIL)
+
+all: $(PERFORMANCE) $(UTIL)
 
 %: performance/%.c
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
+%: util/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 
 clean:
