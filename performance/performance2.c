@@ -7,8 +7,21 @@
 
 #include "bench.h"
 
-ull start;
-ull end;
+/*
+	Benchmark for ASLR performance across HardenedBSD and FreeBSD
+	This benchmark specifically measures pthread creation time.
+
+	@author John Detter <jdetter@wisc.edu>
+	@author Riccardo Mutschlechner <riccardo@cs.wisc.edu>
+*/
+
+
+
+unsigned long long start;
+unsigned long long end;
+
+uint high;
+uint low;
 
 void *pthread_func(void *argument){
 	RDTSC(end); //get the cycle counter right away here
@@ -20,28 +33,26 @@ void time_pthread(){
 	pthread_t thr;
 
 	uint val;
-	ull high;
-	ull low;
 	unsigned long diff;
 	unsigned long best = (unsigned long) -1;
 
 	int x;
+
 	for(x = 0;x < 10000;x++){
 		/* Timing section */
 		RDTSC(start);
 		pthread_create(&thr, NULL, pthread_func, NULL);	
-		pthread_join(thr, (void**)NULL);
+		pthread_join(thr, (void **)NULL);
 		diff = end - start;
-
-		printf("%d\n", start);
-		printf("%d\n", end)
 
 		/* End section */
 		if(diff < best) best = diff;
 	}
 
 	diff = best;
-	int file = open("output.txt", O_APPEND | O_RDWR | O_CREAT, 0644);
+	printf("%lu\n", diff);
+
+	int file = open(CHILD_FILE, O_APPEND | O_RDWR | O_CREAT, 0644);
 
 	if(file < 0) {
 		printf("BAD FILE!\n");
