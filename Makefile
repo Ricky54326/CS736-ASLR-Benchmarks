@@ -6,10 +6,10 @@ CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
 
 PERFORMANCE := \
 	performance1 \
+	performance2 \
 	performance3 \
 	performance4
 
-#performance2 
 
 UTIL := \
 	calc
