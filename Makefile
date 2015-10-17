@@ -5,14 +5,13 @@ INCLUDE := -I include
 CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
 
 PERFORMANCE := \
+	performance1 \
+	performance2 \
 	performance3 \
 	performance4
 
 UTIL := \
 	calc
-
-#	performance1 
-#	performance2 
 
 CLEAN := $(PERFORMANCE)	$(UTIL)
 
