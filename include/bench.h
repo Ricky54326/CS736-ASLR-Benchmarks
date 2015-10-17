@@ -8,6 +8,9 @@ typedef unsigned long long ull;
 #define PARENT_FILE "parent.txt"
 #define CHILD_FILE "child.txt"
 
+uint low;
+uint high;
+
 #define RDTSC(result) \
         asm volatile("rdtsc" : "=a" (low), "=d" (high)); \
         result = ((ull)low) | ((ull)high << 32);
