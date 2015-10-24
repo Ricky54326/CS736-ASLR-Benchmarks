@@ -23,7 +23,7 @@ uint high;
 uint low;
 
 void *pthread_func(void *argument){
-	RDTSC(end);
+	RDTSCP(end);
 	return NULL;
 }
 
@@ -37,12 +37,12 @@ void time_proc(){
 	int x;
 	 // for(x = 0; x < 100; x++)
 	 // {
-		RDTSC(start);
+		RDTSCP(start);
 
 		//child
 		if(fork() == 0){
 			//write the end time to a file
-			RDTSC(end);
+			RDTSCP(end);
 			int file = open(CHILD_FILE, O_TRUNC | O_RDWR | O_CREAT, 0644);
 			
 			if(file < 0){

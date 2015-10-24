@@ -10,14 +10,21 @@ PERFORMANCE := \
 	performance3 \
 	performance4
 
+ENTROPY := \
+	entropy1 \
+	entropy2 \
+	entropy3
+
 
 UTIL := \
 	calc
 
-CLEAN := $(PERFORMANCE)	$(UTIL)
+CLEAN := $(PERFORMANCE)	$(UTIL) $(ENTROPY)
 
-all: $(PERFORMANCE) $(UTIL)
+all: $(PERFORMANCE) $(UTIL) $(ENTROPY)
 
+%: entropy/%.c
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 %: performance/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 %: util/%.c

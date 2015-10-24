@@ -24,7 +24,7 @@ uint high;
 uint low;
 
 void *pthread_func(void *argument){
-	RDTSC(end); //get the cycle counter right away here
+	RDTSCP(end); //get the cycle counter right away here
 	pthread_exit(NULL);
 	return NULL;
 }
@@ -40,7 +40,7 @@ void time_pthread(){
 
 	for(x = 0;x < 10000;x++){
 		/* Timing section */
-		RDTSC(start);
+		RDTSCP(start);
 		pthread_create(&thr, NULL, pthread_func, NULL);	
 		pthread_join(thr, (void **)NULL);
 		diff = end - start;
