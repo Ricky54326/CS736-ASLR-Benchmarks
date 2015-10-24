@@ -8,7 +8,9 @@ PERFORMANCE := \
 	performance1 \
 	performance2 \
 	performance3 \
-	performance4
+	performance3_helper \
+	performance4 \
+	performance4_helper
 
 ENTROPY := \
 	entropy1 \
