@@ -10,6 +10,7 @@ if [ "$1" == "on" ]; then
 	VAL=2
 elif [ "$1" == "off" ]; then
 	VAL=0
+	echo "WARNING: make sure to turn ASLR back on after testing!"
 fi
 
 echo "Sudo needed to turn on/off aslr"
