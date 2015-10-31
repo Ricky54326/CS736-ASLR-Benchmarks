@@ -22,6 +22,7 @@ UTIL := \
 	calc
 
 CLEAN := $(PERFORMANCE)	$(UTIL) $(ENTROPY)
+JUNK := output.txt child.txt parent.txt
 
 all: $(PERFORMANCE) $(UTIL) $(ENTROPY)
 
@@ -33,4 +34,4 @@ all: $(PERFORMANCE) $(UTIL) $(ENTROPY)
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 
 clean:
-	rm -rf $(CLEAN)
+	rm -rf $(CLEAN) $(JUNK)

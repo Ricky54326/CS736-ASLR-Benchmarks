@@ -13,5 +13,5 @@ elif [ "$1" == "off" ]; then
 fi
 
 echo "Sudo needed to turn on/off aslr"
-sudo printf
+sudo printf ""
 echo $VAL | sudo tee /proc/sys/kernel/randomize_va_space
