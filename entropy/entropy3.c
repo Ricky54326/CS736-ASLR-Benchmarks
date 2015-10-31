@@ -12,25 +12,9 @@
 int main(char** argv, int argc)
 {
 	/* We are considering the start of the stack the address of argv */
-	unsigned long stack_start = (unsigned long)argv;
+	unsigned long code_start = (unsigned long)main;
 
-	int fd = open("./entropy3");
-	if(fd < 0)
-	{
-		printf("Open failed!\n");
-		return -1;
-	}
-
-	Elf64_Ehdr header;
-
-	if(read(fd, &header, sizeof(Elf64_Ehdr)) !=
-		sizeof(Elf64_Ehdr))
-	{
-		printf("Read failure!\n");
-		return -1;
-	}	
-
-	printf("0x%x\n", stack_start);
+	printf("0x%lx\n", code_start);
 
 	return 0;
 }

@@ -52,7 +52,7 @@ void time_pthread(){
 	diff = best;
 	printf("%lu\n", diff);
 
-	int file = open(CHILD_FILE, O_APPEND | O_RDWR | O_CREAT, 0644);
+	int file = open(OUTPUT_FILE, O_APPEND | O_RDWR | O_CREAT, 0644);
 
 	if(file < 0) {
 		printf("BAD FILE!\n");

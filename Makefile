@@ -26,7 +26,7 @@ CLEAN := $(PERFORMANCE)	$(UTIL) $(ENTROPY)
 all: $(PERFORMANCE) $(UTIL) $(ENTROPY)
 
 %: entropy/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@
 %: performance/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 %: util/%.c

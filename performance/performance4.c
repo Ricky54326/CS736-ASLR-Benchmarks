@@ -76,7 +76,7 @@ int main(int argc, char** argv)
 	}
 
 	char num[512];
-	snprintf(num, 512, "%d\n", min);
+	snprintf(num, 512, "%llu\n", min);
 	int written = write(file, num, strlen(num));
 	if(written != strlen(num))
 	{

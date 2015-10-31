@@ -22,88 +22,104 @@ unsigned long long end;
 uint high;
 uint low;
 
-void *pthread_func(void *argument){
-	RDTSCP(end);
-	return NULL;
-}
-
-void time_proc(){
-	pthread_t thr;
-
-	unsigned long diff;
-	unsigned long best = (unsigned long)-1;
+int main(int argc, char *argv[])
+{
+	ull diff;
+	ull best = (unsigned long)-1;
 	uint val;
 
 	int x;
-	 // for(x = 0; x < 100; x++)
-	 // {
-		RDTSCP(start);
-
-		//child
-		if(fork() == 0){
-			//write the end time to a file
-			RDTSCP(end);
-			int file = open(CHILD_FILE, O_TRUNC | O_RDWR | O_CREAT, 0644);
-			
-			if(file < 0){
-				printf("BAD FILE!\n");
-				exit(EXIT_FAILURE);
-			}
-
-			//@TODO: Write RDTSC val to file.
-			int childFile = open(CHILD_FILE, O_RDWR, 0644);
-
-			if(childFile < 0){
-				printf("BAD FILE!\n");
-				exit(EXIT_FAILURE);
-			}
-
-			char *buf = malloc(512);
-			snprintf(buf, 512, "%llu", end);
-
-			write(childFile, buf, 512);
-			
-			exit(EXIT_SUCCESS);
+	for(x = 0; x < 100000; x++)
+	{
+		/* NOTE: this pipe should not impact performance */
+		int fds[2]; /* Create a pipe for IPC */
+		if(pipe(fds))
+		{
+			printf("PIPE FAILED (probably out of fds)\n");
+			return -1;
 		}
 
-		//parent
-		else{
-			wait();
+		RDTSCP(start); /* Start the timer */
+		int pid = fork(); /** << This is what we are measuring */
+
+		if(pid == 0)
+		{
+			//child
+			RDTSCP(end); /* End the timer */
+
+			/* Close the read end of the pipe */
+			close(fds[0]);
+
+			/* Calculate the entire fork time */
+			diff = end - start;
+
+			/* Send back to parent */
+			int wr = write(fds[1], &diff, sizeof(ull));
+			if(wr != sizeof(ull))
+			{
+				printf("PIPE WRITE FAILED!\n");
+				return -1;
+			}
+
+			/* Return success for child */
+			exit(0);
+			return -1;
+		} else if(pid > 0)
+		{
+			/* Close write end of the pipe */	
+			close(fds[1]);
+			
+			/* Read the response */
+			int rd = read(fds[0], &diff, sizeof(ull));
+			if(rd != sizeof(ull))
+			{
+				printf("Read failed!\n");
+				return -1;
+			}
+
+			int st; /* status of the returning child */
+			if(waitpid(pid, &st, NULL) != pid)
+			{
+				printf("WAITPID failed!\n");
+				return -1;
+			}
+
+			/* Was the return status okay? */
+			if(st)
+			{
+				printf("Child returned failure.\n");
+				return -1;
+			}
+
+			/* Was the last run significant?  */
+			if(diff < best)
+				best = diff;
+
+			/* That run went okay, lets do another. */
+		} else {
+			printf("FORK FAILURE!\n");
+			return -1;
 		}
 
-	 // }
+		/* SAFETY: clean up the file descriptors */
+		close(fds[0]);
+	 }
 
+        int file = open(OUTPUT_FILE, O_RDWR | O_CREAT | O_APPEND, 0664);
+        if(file < 0)
+        {
+                printf("Open failed!\n");
+                return -1;
+        }
 
-	//read val from child file
-	int childFile = open(CHILD_FILE, O_RDONLY, 0644);
-	if(childFile < 0){
-		printf("BAD FILE!\n");
-		exit(EXIT_FAILURE);
-	}
+        char num[512];
+        snprintf(num, 512, "%llu\n", best);
+        int written = write(file, num, strlen(num));
+        if(written != strlen(num))
+        {
+                printf("Write failed!\n");
+                return -1;
+        }
 
-	char *buf = malloc(512);
-	read(childFile, buf, 512);
-	end = strtoul(buf, NULL, 10);
-
-	printf("%llu\n", end-start);
-
-	int file = open(PARENT_FILE, O_TRUNC | O_RDWR | O_CREAT, 0644);
-	
-	if(file < 0){
-		printf("BAD FILE!\n");
-		exit(EXIT_FAILURE);
-	}
-
-	// diff = end-start;
-	// snprintf(numbuffer, 512, "%lu\n", diff);
-	// write(file, numbuffer, strlen(numbuffer));
-	close(file);
-
-	return;
-}
-
-int main(int argc, char *argv[])
-{
-	time_proc();
 	return 0;
 }
