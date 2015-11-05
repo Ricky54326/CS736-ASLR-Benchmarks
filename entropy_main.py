@@ -7,6 +7,7 @@ __author__      = "Riccardo Mutschlechner <riccardo@cs.wisc.edu>, John Detter <j
 import collections
 import os
 import subprocess
+from entropy_graph import graph
 
 # From: http://www.python-course.eu/forking.php
 cnt = collections.Counter()
@@ -28,6 +29,12 @@ def main():
 
 
    print cnt.most_common(10)
+
+   asints = []
+   for key in cnt.keys():
+	asints.append(int(key, 16))
+	
+   graph(asints)
 
 
 main()
