@@ -1,5 +1,5 @@
 /** 
- * Stack entropy test
+ * Code entropy test
  *
  * Authors: John Detter <jdetter@wisc.edu>
  * 		Riccardo Mutschlechner <riccardo@cs.wisc.edu>
