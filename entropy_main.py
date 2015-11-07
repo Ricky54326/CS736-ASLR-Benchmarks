@@ -6,8 +6,9 @@ __author__      = "Riccardo Mutschlechner <riccardo@cs.wisc.edu>, John Detter <j
 
 import collections
 import os
+import cPickle as pickle
 import subprocess
-from entropy_graph import graph
+#from entropy_graph import graph
 
 # From: http://www.python-course.eu/forking.php
 cnt = collections.Counter()
@@ -34,7 +35,10 @@ def main():
    for key in cnt.keys():
 	asints.append(int(key, 16))
 	
-   graph(asints)
+   #serialize data
+   pickle.dump(asints, open("data.p", "wb"))
+
+   #graph(asints)
 
 
 main()
