@@ -1,4 +1,4 @@
-CC := gcc
+CC := gcc48
 CFLAGS := -pthread -ggdb
 INCLUDE := -I include
 
@@ -27,7 +27,7 @@ JUNK := output.txt child.txt parent.txt
 all: $(PERFORMANCE) $(UTIL) $(ENTROPY)
 
 %: entropy/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 %: performance/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 %: util/%.c
