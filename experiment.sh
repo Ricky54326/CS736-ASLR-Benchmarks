@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 
 set -e
 
-TEST=./scripts/test.sh
+TEST=bash ./scripts/test.sh
 
 printf "Current cpu speed ... "
 SPEED=$(cat /proc/cpuinfo | grep "cpu MHz" | head -n 1 | cut -d ":" -f 2)
@@ -12,7 +12,7 @@ SPEED="3400.000"
 echo "$SPEED MHz"
 
 printf "Rebuilding...\t\t\t\t\t\t\t\t"
-make clean all > /dev/null
+gmake clean all > /dev/null
 echo "[ OK ]"
 
 #printf "Performance test 1: "
