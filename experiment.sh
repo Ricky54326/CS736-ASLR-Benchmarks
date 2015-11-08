@@ -5,7 +5,7 @@ set -e
 TEST=bash ./scripts/test.sh
 
 printf "Current cpu speed ... "
-SPEED=$(cat /proc/cpuinfo | grep "cpu MHz" | head -n 1 | cut -d ":" -f 2)
+# SPEED=$(cat /proc/cpuinfo | grep "cpu MHz" | head -n 1 | cut -d ":" -f 2)
 
 # If you want to specify the cpu speed manually, enter it below:
 SPEED="3400.000"
@@ -22,8 +22,6 @@ echo "[ OK ]"
 printf "Performance test 2: "
 FAST=$($TEST ./performance2)
 ./calc -s $SPEED $FAST
-
-exit
 
 printf "Performance test 3: "
 FAST=$($TEST ./performance3)

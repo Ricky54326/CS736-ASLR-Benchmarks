@@ -12,6 +12,7 @@ entropy3
 
 # Temporary files
 *.swp
+*.core
 
 # Junk files
 output.txt
