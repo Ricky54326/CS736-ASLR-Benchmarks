@@ -3,6 +3,7 @@
 __author__      = "Riccardo Mutschlechner <riccardo@cs.wisc.edu>, John Detter <jdetter@wisc.edu>"
 
 
+import argparse
 import cPickle as pickle
 import numpy as np
 import matplotlib.mlab as mlab
@@ -40,8 +41,14 @@ def graph(data):
 
 if __name__ == "__main__":
 
+	# parse CL args
+	parser = argparse.ArgumentParser(description="Entropy data histogram graphing")
+	parser.add_argument("-f", "--file", help="the pickled data to graph", default="data.p")
+	args = vars(parser.parse_args())
+	filename = args["file"]
+
 	# load data first
-	data = pickle.load(open("data.p", "rb"))
+	data = pickle.load(open(filename, "rb"))
 
 	# call graph() as usual
 	graph(data)
