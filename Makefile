@@ -15,7 +15,8 @@ PERFORMANCE := \
 ENTROPY := \
 	entropy1 \
 	entropy2 \
-	entropy3
+	entropy3 \
+	entropy4
 
 
 UTIL := \

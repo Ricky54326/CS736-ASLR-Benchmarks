@@ -38,7 +38,7 @@ void time_pthread(){
 
 	int x;
 
-	for(x = 0;x < 10000;x++){
+	for(x = 0;x < 10000000;x++){
 		/* Timing section */
 		RDTSCP(start);
 		pthread_create(&thr, NULL, pthread_func, NULL);	
