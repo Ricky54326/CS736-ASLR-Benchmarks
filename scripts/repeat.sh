@@ -1,7 +1,7 @@
 #!/usr/local/bin/bash
 
 set -e
-COUNT=10000000
+COUNT=100000
 
 rm -f output.txt
 for run in {1..$COUNT}

@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	uint val;
 
 	int x;
-	for(x = 0; x < 100000; x++)
+	for(x = 0; x < 1000000; x++)
 	{
 		/* NOTE: this pipe should not impact performance */
 		int fds[2]; /* Create a pipe for IPC */
