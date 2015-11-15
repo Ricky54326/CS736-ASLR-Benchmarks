@@ -2,7 +2,7 @@
 
 set -e
 
-TEST=bash ./scripts/test.sh
+TEST="sh ./scripts/test.sh"
 
 printf "Current cpu speed ... "
 # SPEED=$(cat /proc/cpuinfo | grep "cpu MHz" | head -n 1 | cut -d ":" -f 2)
