@@ -18,3 +18,4 @@ entropy4
 output.txt
 child.txt
 parent.txt
+*-output.txt
