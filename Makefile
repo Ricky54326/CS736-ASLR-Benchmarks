@@ -20,7 +20,8 @@ ENTROPY := \
 
 
 UTIL := \
-	calc
+	calc \
+	run_test
 
 CLEAN := $(PERFORMANCE)	$(UTIL) $(ENTROPY)
 JUNK := output.txt child.txt parent.txt
