@@ -32,9 +32,13 @@ def entropy1():
 
    asints = []
 
-   for key in cnt.keys():
-         asints.append(int(key, 16))
+   for key, val in cnt.iteritems():
+	# print "DEBUG: ", key, " ", val
+   	for i in range(val):
+            #print long(key, 16),
+            asints.append(long(key, 16))
    
+   # print "DEBUG: len():", len(cnt) 
    #serialize data
    pickle.dump(asints, open("entropy1.p", "wb"))
 
@@ -60,7 +64,7 @@ def entropy2():
    #print cnt.most_common(10)
    asints = []
    for key in cnt.keys():
-      asints.append(int(key, 16))
+      asints.append(long(key, 16))
    
    #serialize data
    pickle.dump(asints, open("entropy2.p", "wb"))
@@ -87,7 +91,7 @@ def entropy3():
    asints = []
 
    for key in cnt.keys():
-      asints.append(int(key, 16))
+      asints.append(long(key, 16))
    
    #serialize data
    pickle.dump(asints, open("entropy3.p", "wb"))
@@ -95,13 +99,13 @@ def entropy3():
    #graph(asints)
 
 def main():
-   print "Starting entropy1"
+   #print "Starting entropy1"
    entropy1()
 
-   print "Starting entropy2"
+   #print "Starting entropy2"
    entropy2()
 
-   print "Starting entropy3"
+   #print "Starting entropy3"
    entropy3()
 
 main()
