@@ -13,8 +13,6 @@ COUNT1=$(./sub "$LINES_ORIG" "$LINES_UNIQ")
 echo $COUNT1 >> $OUTPUT_FILE
 echo $COUNT1
 
-# remove junk files
-
 # ENTROPY 2
 echo "Entropy 2"
 ./run_test ./entropy2;
