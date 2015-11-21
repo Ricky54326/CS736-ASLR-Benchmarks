@@ -49,11 +49,16 @@ if __name__ == "__main__":
 	# parse CL args
 	parser = argparse.ArgumentParser(description="Entropy data histogram graphing")
 	parser.add_argument("-f", "--file", help="the pickled data to graph", default="data.p")
+	parser.add_argument("-p", "--pickled", help="the data is pickled", default=False)
 	args = vars(parser.parse_args())
 	filename = args["file"]
+	pickled = args["pickled"]
 
-	# load data first
-	data = pickle.load(open(filename, "rb"))
-
+	if pickled:
+		# load data first
+		data = pickle.load(open(filename, "rb"))
+	else:
+		data = [int(line.strip(), 16) for line in open(filename, "rb")]
+	
 	# call graph() as usual
 	graph(data)

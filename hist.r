@@ -1,7 +1,6 @@
-# vec <- c(150, 150, 500)
-vec <- scan("http://www.upl.cs.wisc.edu/~riccardo/entropy1.p")
+vec <- table(scan("http://www.upl.cs.wisc.edu/~riccardo/entropy1.p"))
 
-len = length(vec)
+# hist(vec, xlab="Address", breaks=len)
 
-hist(vec, xlab="Address", breaks=len)
+barplot(vec, xlab="OS", ylab="# Collisions", main="ASLR Entropy")
 
