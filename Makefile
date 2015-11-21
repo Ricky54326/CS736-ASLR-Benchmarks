@@ -21,6 +21,7 @@ ENTROPY := \
 
 UTIL := \
 	calc \
+	sub \
 	run_test
 
 CLEAN := $(PERFORMANCE)	$(UTIL) $(ENTROPY)

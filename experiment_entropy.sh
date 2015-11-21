@@ -1,13 +1,19 @@
 #!/bin/bash
 # runs entropy experiments
+OUTPUT_FILE=entropy-output.txt
+rm -f $OUTPUT_FILE
 
 # ENTROPY 1
-echo "Entropy 1"
-./run_test ./entropy1;
-uniq entropy1-output.txt > entropy1-output-uniq.txt;
-COUNT1=$(diff entropy1-output.txt entropy1-output-uniq.txt | wc -l);
-echo $COUNT1 >> entropy-output.txt;
+printf "Entropy 1...\t\t"
+./run_test ./entropy1
+uniq entropy1-output.txt > entropy1-output-uniq.txt
+LINES_ORIG=$(wc -l entropy1-output.txt)
+LINES_UNIQ=$(wc -l entropy1-output-uniq.txt)
+COUNT1=$(./sub "$LINES_ORIG" "$LINES_UNIQ")
+echo $COUNT1 >> $OUTPUT_FILE
+echo $COUNT1
 
+# remove junk files
 
 # ENTROPY 2
 echo "Entropy 2"
