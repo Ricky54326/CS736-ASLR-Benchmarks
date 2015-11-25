@@ -1,5 +1,5 @@
-jpeg("entropy1.png");
-vec <- scan("http://www.upl.cs.wisc.edu/~riccardo/entropy.csv")
+jpeg("entropy1.jpg");
+vec <- scan("http://www.upl.cs.wisc.edu/~riccardo/entropy.txt")
 
 barplot(vec, 
 		xlab="OS",

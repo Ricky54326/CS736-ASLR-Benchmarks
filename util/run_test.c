@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	unlink(output_file);
 
 	int x;
-	for(x = 0; x < 1000; x++)
+	for(x = 0; x < 10000; x++)
 	{
 		int pid = fork();
 

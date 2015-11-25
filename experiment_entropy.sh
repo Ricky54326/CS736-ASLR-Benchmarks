@@ -13,6 +13,7 @@ COUNT1=$(./sub "$LINES_ORIG" "$LINES_UNIQ")
 echo $COUNT1 >> $OUTPUT_FILE
 echo $COUNT1
 
+
 # ENTROPY 2
 printf "Entropy 2...\t\t"
 ./run_test ./entropy2
