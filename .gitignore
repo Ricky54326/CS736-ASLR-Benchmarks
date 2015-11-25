@@ -15,6 +15,7 @@ sub
 
 # Temporary files
 *.swp
+*.core
 
 # Junk files
 output.txt
