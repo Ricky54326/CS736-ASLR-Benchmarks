@@ -11,8 +11,8 @@
 /* TUNABLES */
 #define MAX_QUERY 	(8192 << 2)
 #define BATCH_SIZE 	0x1F0
-#define MAX_THREADS 	8
-#define DB_COUNT	4
+#define MAX_THREADS 	4
+#define DB_COUNT	1
 
 /* Set this if you want a custom amount of runs done */
 // #define SET_RUNS 100000
