@@ -9,10 +9,13 @@
 #include <sqlite3.h>
 
 /* TUNABLES */
-#define MAX_QUERY 	8192
-#define BATCH_SIZE 	0x100
-#define MAX_THREADS 	0x40
-#define DB_COUNT	32
+#define MAX_QUERY 	(8192 << 2)
+#define BATCH_SIZE 	0x1F0
+#define MAX_THREADS 	8
+#define DB_COUNT	4
+
+/* Set this if you want a custom amount of runs done */
+// #define SET_RUNS 100000
 
 #define CBLACK  "\x1B[0m"
 #define CGREEN  "\x1B[32m"
@@ -27,7 +30,7 @@ static int callback(void *unused, int argc, char **argv, char **cols)
 		if(!strncmp(cols[x], "result", 6))
 		{
 			callback_result = atoi(argv[x]);
-			printf("Result: %d\n", callback_result);
+			// printf("Result: %d\n", callback_result);
 			return 0;
 		}
 	}
@@ -164,8 +167,11 @@ void execute_insert(uint64_t* vals, int count, sqlite3* db)
                                 vals[x]);
 		}
 
-		strncat(query, sub_query, MAX_QUERY);
+		strncat(query, sub_query, MAX_QUERY - 1);
 	}
+
+	if(strlen(query) >= MAX_QUERY - 10)
+		printf("INCREASE MAX QUERY\n");
 
 	/* Execute the insert */
 	if(sqlite3_exec(db, query, callback, 0,
@@ -198,13 +204,14 @@ int _run_test(char* program, sqlite3* db, uint64_t iterations, int prog)
 	uint64_t x;
 	for(x = 0;x < iterations;x++)
 	{
-		if(prog && (x % 16) == 0)
+		if(prog && (x % (BATCH_SIZE / 2)) == 0)
 		{
 			int percent = (x * 100) / iterations;
 			printf("["CGREEN"%2d"CBLACK"%%] Run "
 					CBLUE"%ld"CBLACK
-					" out of %ld\n",
+					" out of %ld",
 					percent, x, iterations);
+			printf("\r");
 		}
 
 		int fds[2]; /* Pipe pair */
@@ -285,41 +292,41 @@ void* run_test(void* args)
 	return NULL;
 }
 
-sqlite3* setup_database(char* name)
+sqlite3* setup_database(char* name, int verbose)
 {
 	sqlite3* db = NULL;
         char* err_msg = NULL;
         char* insert_str = "INSERT INTO addrs VALUES (%llu);";
 
-        printf("Opening database %s\t\t\t\t\t", name);
+        if(verbose) printf("Opening database %s\t\t\t\t\t", name);
         if(sqlite3_open_v2(name, &db,
                                 SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
                                 NULL) != SQLITE_OK)
         {
-                printf("[FAIL]\n");
+                if(verbose) printf("[FAIL]\n");
                 return NULL;
         }
-        printf("[ OK ]\n");
+        if(verbose) printf("[ OK ]\n");
 
-        printf("Dropping table...\t\t\t\t\t\t\t");
+        if(verbose) printf("Dropping table...\t\t\t\t\t\t\t");
         const char* drop_str = "DROP TABLE IF EXISTS addrs";
         if(sqlite3_exec(db, drop_str, callback, 0, &err_msg)
                         != SQLITE_OK)
         {
-                printf("[FAIL]\n");
+                if(verbose) printf("[FAIL]\n");
                 return NULL;
         }
-        printf("[ OK ]\n");
+        if(verbose) printf("[ OK ]\n");
 
-	printf("Creating table...\t\t\t\t\t\t\t");
+	if(verbose) printf("Creating table...\t\t\t\t\t\t\t");
         const char* create_str = "CREATE TABLE addrs(addr UNSIGNED BIGINT);";
         if(sqlite3_exec(db, create_str, callback, 0, &err_msg)
                         != SQLITE_OK)
         {
-                printf("[FAIL]\n");
+                if(verbose) printf("[FAIL]\n");
                 return NULL;
         }
-        printf("[ OK ]\n");
+        if(verbose) printf("[ OK ]\n");
 
 	return db;
 }
@@ -333,12 +340,14 @@ int get_bits_of_entropy(char* program, uint64_t* map,
 	if(possible) *possible = 1 << bits;
 
 	sqlite3* databases[DB_COUNT];
+	char* db_names[DB_COUNT];
 
+	printf("Opening databases...\t\t\t\t\t\t\t");
 	/* Initilize the databases */
 	int db;
 	for(db = 0;db < DB_COUNT;db++)
 	{
-		char db_name[128];
+		char* db_name = malloc(128);
 		char num[16];
 		strncpy(db_name, program, 128);
 		snprintf(num, 16, "%d", (db + 1));
@@ -346,24 +355,41 @@ int get_bits_of_entropy(char* program, uint64_t* map,
 		strncat(db_name, num, 128);
 		strncat(db_name, ".sql", 128);
 
-		databases[db] = setup_database(db_name);
+		databases[db] = setup_database(db_name, 0);
+
+		if(!databases[db])
+		{
+			printf("[FAIL]\n");
+			return -1;
+		}
+		db_names[db] = db_name;
 	}
+
+	printf("[ OK ]\n");
 
 	/* How many threads should we run at once? */
 	int thread_count = MAX_THREADS;
-	uint64_t runs = (*possible << 1);
-	int warn = ((runs) >> (30 - sizeof(uint64_t)));
+	uint64_t runs = (*possible);
 
-	if(warn)
+	runs >>= 10;
+
+	int gigs = ((runs) >> (30 - sizeof(uint64_t)));
+	runs /= thread_count;
+
+#ifdef SET_RUNS
+	runs = SET_RUNS;
+#endif
+
+	printf("Possible values: 0x%lx\n", *possible);
+	printf("Runs:            0x%lx\n", runs);
+
+	if(gigs)
 	{
 		printf("Warning: This test will use %uGB of disk space.\n",
-				warn);
+				gigs);
 	}
 
 	printf("Running with %d threads max\n", thread_count);
-
-	runs /= thread_count;
-	runs /= DB_COUNT;
 
 	/* Spawn all of the threads. */
 	pthread_t threads[thread_count];
@@ -389,21 +415,74 @@ int get_bits_of_entropy(char* program, uint64_t* map,
 	for(x = 0;x < thread_count;x++)
 		pthread_join(threads[x], NULL);
 
-	printf(CGREEN"Runs Complete!\n"CBLACK);
+	printf(CGREEN"\nRuns Complete!\n"CBLACK);
 
-	return 0;
+
+	printf("Merging all databases...\n");
+	char* err_msg = NULL;
+
+	for(x = 1;x < DB_COUNT;x++)
+	{
+		sqlite3* db = databases[0];
+		/* Close other database */
+		sqlite3_close(databases[x]);
+		databases[x] = NULL;
+
+		char query[512];
+		/* Attach this Database */
+		char* attach = "ATTACH DATABASE \'%s\' AS data%d;";
+		snprintf(query, 512, attach, db_names[x], x);
+
+		if(sqlite3_exec(db, query, callback, 0, &err_msg)
+				!= SQLITE_OK)
+		{
+			printf("Couldn't attach to db! "
+					"\n%s\n%s\n",
+					query,
+					err_msg);
+			continue;
+		}
+
+		char* insert = "INSERT INTO addrs (addr) "
+				"SELECT addr FROM data%d.addrs;";
+		snprintf(query, 512, insert, x);
+
+		if(sqlite3_exec(db, query, callback, 0, &err_msg)
+                                != SQLITE_OK)
+                {
+                        printf("Couldn't insert into db! "
+                                        "\n%s\n%s\n",
+                                        query,
+                                        err_msg);
+                        continue;
+                }
+
+		char* detach = "DETACH DATABASE data%d;";
+                snprintf(query, 512, detach, x);
+
+                if(sqlite3_exec(db, query, callback, 0, &err_msg)
+                                != SQLITE_OK)
+                {
+                        printf("Couldn't detach db! "
+                                        "\n%s\n%s\n",
+                                        query,
+                                        err_msg);
+                        continue;
+                }
+
+		unlink(db_names[x]);
+	}
 
 	/* How many distnct addresses did we see? */
-	/*char* select_query = "SELECT COUNT(DISTINCT addr) "
+	char* select_query = "SELECT COUNT(DISTINCT addr) "
 		"AS result FROM addrs;";
-	if(sqlite3_exec(db, select_query, callback, 0,
+	if(sqlite3_exec(databases[0], select_query, callback, 0,
 				&err_msg)
 			!= SQLITE_OK)
-	*/	printf("SELECT QUERY FAILED!\n");
+		printf("SELECT QUERY FAILED!\n");
+	sqlite3_close(databases[0]);
 
 	if(distinct) *distinct = callback_result;
-
-	// sqlite3_close(db);
 
 	return bits;
 }
@@ -438,11 +517,11 @@ void print_analysis(uint64_t bitmap, uint64_t distinct, uint64_t possible)
 		}
 	}
 
-	unsigned int tmp = distinct - 1;
+	uint64_t tmp = distinct - 1;
 	int pow_2 = 0;
 	while(tmp)
 	{
-		tmp <<= 1;
+		tmp >>= 1;
 		pow_2++;
 	}
 	printf("Patterns encountered: %ld\n", distinct);
@@ -451,7 +530,7 @@ void print_analysis(uint64_t bitmap, uint64_t distinct, uint64_t possible)
 	printf("%s\n", measure);
 	printf("%s\n", map);
 	printf("LSB                                                     "
-			"     MSB\n");
+			"     MSB\n\n");
 }
 
 int main(int argc, char** argv)
@@ -459,17 +538,24 @@ int main(int argc, char** argv)
 	uint64_t map;
 	uint64_t distinct;
 	uint64_t possible;
+	int start;
+	printf("****** STACK ANALYSIS ******\n");
+	start = time(NULL);
 	int stack_bits = get_bits_of_entropy("./entropy1", &map, 
 			&distinct, &possible);
-	printf("Estimated stack bits: %d\n", stack_bits);
+	printf("Elapsed time: %d seconds\n", time(NULL) - start);
 	print_analysis(map, distinct, possible);
+	printf("****** HEAP ANALYSIS ******\n");
+	start = time(NULL);
 	int heap_bits = get_bits_of_entropy("./entropy2", &map,
 			&distinct, &possible);
-	printf("Estimated heap bits: %d\n", heap_bits);
+	printf("Elapsed time: %d seconds\n", time(NULL) - start);
 	print_analysis(map, distinct, possible);
+	printf("****** CODE ANALYSIS ******\n");
+	start = time(NULL);
 	int code_bits = get_bits_of_entropy("./entropy3", &map,
 			&distinct, &possible);
-	printf("Estimated code bits: %d\n", code_bits);
+	printf("Elapsed time: %d seconds\n", time(NULL) - start);
 	print_analysis(map, distinct, possible);
 
 	return 0;
