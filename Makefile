@@ -1,7 +1,7 @@
 CC := gcc
 CFLAGS := -pthread -ggdb
 INCLUDE := -I include
-LIBS := -lsqlite3
+LIBS := -lsqlite3 -pthread
 
 CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
 
