@@ -134,11 +134,15 @@ int estimate_bits_of_entropy(char* program, uint64_t* map)
 	return bits;
 }
 
+#define CBLACK  "\x1B[0m"
+#define CGREEN  "\x1B[32m"
+#define CBLUE   "\x1B[34m"
 int get_bits_of_entropy(char* program, uint64_t* map, 
 		uint64_t* distinct, uint64_t* possible)
 {
 	/* Precalculate the amount of bits we need: */
 	int bits =  estimate_bits_of_entropy(program, map);
+	printf("Estimated bits: %d\n", bits);
 	if(possible) *possible = 1 << bits;
 
 	sqlite3* db = NULL;
@@ -178,9 +182,9 @@ int get_bits_of_entropy(char* program, uint64_t* map,
         }
 	printf("[ OK ]\n");
 
-	int spawn_count = 8;
-	uint64_t runs = (*possible << 2) / spawn_count;
-	int warn = ((runs * spawn_count) >> (30 - 4));
+	// int spawn_count = 8;
+	uint64_t runs = (*possible << 2);
+	int warn = ((runs) >> (30 - 4));
 	int progress = 0;
 
 	if(warn)
@@ -193,62 +197,51 @@ int get_bits_of_entropy(char* program, uint64_t* map,
 	uint64_t x;
 	for(x = 0;x < runs;x++)
 	{
-		if(x && progress && (x % 10240 == 0))
+		if(progress && (x % 1048576 == 0))
 		{
 			int percent = (x * 100) / runs;
-			printf("[%02d%%] Run %ld out of %ld\n",
+			printf("["CGREEN"%2d"CBLACK"%%] Run "CBLUE"%ld"
+					CBLACK
+					" out of %ld\n",
 					percent, x, runs);
 		}
 
-		int pids[spawn_count];
-		int pipes[spawn_count][2];
-		int spawn;
-		for(spawn = 0;spawn < spawn_count;spawn++)
+		// int pids[spawn_count];
+		// int pipes[spawn_count][2];
+		int fds[2];
+
+		if(pipe(fds))
 		{
-			printf("Running.\n");
-			if(pipe(pipes[spawn_count]))
-			{
-				printf("PIPE FAILED\n");
-				return 0;
-			}
-			int pid = fork();
-
-			if(pid == 0)
-			{
-				printf("Child\n");
-				/* Close the read end */
-				close(pipes[spawn_count][0]);
-				close(1); /* Close stdout */
-				/* Bind stdout */
-				dup2(pipes[spawn_count][1], 1);
-
-				/* Child function */
-				char* arguments[2];
-				arguments[0] = program;
-				arguments[1] = NULL;
-
-				execv(program, arguments);
-				printf("EXECVE FAILED!\n");
-				return 0;
-			} else if(pid > 0)
-			{
-				printf("Parent\n");
-				pids[spawn] = pid;
-				close(pipes[spawn][1]);
-			} else {
-				printf("FORK FAILED!\n");
-				return 0;
-			}
+			printf("PIPE FAILED\n");
+			return 0;
 		}
+		int pid = fork();
 
-		/* Collect the results */
-		for(spawn = 0;spawn < spawn_count;spawn++)
+		if(pid == 0)
 		{
+			/* Close the read end */
+			close(fds[0]);
+			close(1); /* Close stdout */
+			/* Bind stdout */
+			dup2(fds[1], 1);
+
+			/* Child function */
+			char* arguments[2];
+			arguments[0] = program;
+			arguments[1] = NULL;
+
+			execv(program, arguments);
+			printf("EXECVE FAILED!\n");
+			return 0;
+		} else if(pid > 0)
+		{
+			close(fds[1]);
+
 			/* Parent function */
 			/* Wait for the process to finish */
-			waitpid(pids[spawn], NULL, 0);
+			waitpid(pid, NULL, 0);
 			memset(result, 0, 128);
-			if(read(pipes[spawn][0], result, 128) <= 0)
+			if(read(fds[0], result, 128) <= 0)
 			{
 				printf("READ FAILED!\n");
 				return -1;
@@ -256,7 +249,7 @@ int get_bits_of_entropy(char* program, uint64_t* map,
 
 			/* Convert to long int */
 			uint64_t generated = convert_to_u64(result + 2);
-			close(pipes[spawn][0]);
+			close(fds[0]);
 
 			char query[512];
 			snprintf(query, 512, insert_str, generated);
@@ -265,6 +258,9 @@ int get_bits_of_entropy(char* program, uint64_t* map,
 						&err_msg)
 					!= SQLITE_OK)
 				printf("Couldn't add to db!\n");
+		} else {
+			printf("FORK FAILED!\n");
+			return 0;
 		}
 	}
 
