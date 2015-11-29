@@ -1,6 +1,7 @@
 CC := gcc
 CFLAGS := -pthread -ggdb
 INCLUDE := -I include
+LIBS := -lsqlite3
 
 CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
 
@@ -30,11 +31,11 @@ JUNK := output.txt child.txt parent.txt
 all: $(PERFORMANCE) $(UTIL) $(ENTROPY)
 
 %: entropy/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@ $(LIBS)
 %: performance/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@ $(LIBS)
 %: util/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@ $(LIBS)
 
 clean:
 	rm -rf $(CLEAN) $(JUNK)

@@ -22,3 +22,4 @@ child.txt
 parent.txt
 *-output.txt
 *-output-uniq.txt
+*.sql
