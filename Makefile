@@ -1,6 +1,7 @@
 CC := gcc
 CFLAGS := -pthread -ggdb
 INCLUDE := -I include
+LIBS := -lsqlite3 -pthread
 
 CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
 
@@ -26,6 +27,7 @@ ENTROPY := \
 
 UTIL := \
 	calc \
+	sub \
 	run_test
 
 CLEAN := $(PERFORMANCE)	$(APERFORMANCE) $(UTIL) $(ENTROPY)
@@ -37,13 +39,19 @@ performance1_helper:
 	$(CC) $(CFLAGS) $(INCLUDE) -nostdlib performance/performance1_helper.c -o $@ write
 
 %: entropy/%.c
+<<<<<<< HEAD
 	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@
 %: performance/%.S
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 %: performance/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@ write
+=======
+	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@ $(LIBS)
+%: performance/%.c
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@ $(LIBS)
+>>>>>>> f420f96111e4695fc07ff00be7b82703e87fad0e
 %: util/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@ $(LIBS)
 
 clean:
 	rm -rf $(CLEAN) $(JUNK)

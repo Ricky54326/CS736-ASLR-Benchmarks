@@ -11,6 +11,7 @@ entropy2
 entropy3
 entropy4
 run_test
+sub
 
 # Temporary files
 *.swp
@@ -20,3 +21,6 @@ output.txt
 child.txt
 parent.txt
 *-output.txt
+*-output-uniq.txt
+*.sql
+*.sql-journal

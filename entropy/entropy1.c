@@ -10,11 +10,8 @@
 
 int main(char** argv, int argc)
 {
-	int x = 0; /* Declare a var on the stack */
-	if(x == 0) x++; /* Supress warnings */
-
 	/* We are considering the start of the stack the address of argv */
-	unsigned long stack_start = (unsigned long)&x;
+	unsigned long stack_start = (unsigned long)&argv;
 	printf("0x%lx\n", stack_start);
 
 	return 0;
