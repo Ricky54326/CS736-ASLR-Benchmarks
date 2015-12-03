@@ -39,17 +39,11 @@ performance1_helper:
 	$(CC) $(CFLAGS) $(INCLUDE) -nostdlib performance/performance1_helper.c -o $@ write
 
 %: entropy/%.c
-<<<<<<< HEAD
-	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@ $(LIBS)
 %: performance/%.S
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 %: performance/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@ write
-=======
-	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@ $(LIBS)
-%: performance/%.c
-	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@ $(LIBS)
->>>>>>> f420f96111e4695fc07ff00be7b82703e87fad0e
+	$(CC) $(CFLAGS) $(INCLUDE) -fPIE -pie $< -o $@ $(LIBS) write
 %: util/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@ $(LIBS)
 
