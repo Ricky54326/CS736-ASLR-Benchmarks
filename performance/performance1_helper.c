@@ -20,9 +20,7 @@ int _start(char** arg, int argc)
 {
 	RDTSCP(end);
 
-	sys_read(0, &start, sizeof(ull));
-	diff = end - start;
-	sys_write(1, &diff, sizeof(ull));
+	sys_write(1, &end, sizeof(ull));
 
 	sys_exit(0);
 	

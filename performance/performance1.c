@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/mman.h>
 
 #include "bench.h"
 
@@ -16,9 +17,8 @@
 */
 
 
-unsigned long long start;
-unsigned long long end;
-
+ull* start;
+ull end;
 uint high;
 uint low;
 
@@ -28,9 +28,20 @@ int main(int argc, char *argv[])
 	ull best = (unsigned long)-1;
 	uint val;
 
+	/* Create a shared mapping for the start value */
+	void* mapping = mmap(NULL, 4096, PROT_READ | PROT_WRITE,
+		MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+
+	if(!mapping)
+	{
+		printf("Shared mapping failed!\n");
+		return -1;
+	}
+	start = mapping;
+
 	int x;
-	for(x = 0; x < 1000000; x++)
 	// for(x = 0; x < 10; x++)
+	for(x = 0; x < 1000000; x++)
 	{
 		int to_child[2]; /* Create a pipe to tell child the start */
 		if(pipe(to_child))
@@ -47,7 +58,6 @@ int main(int argc, char *argv[])
 		}	
 
 		/* Start the timer */
-		RDTSCP(start);
 		int pid = fork();
 
 		if(pid == 0)
@@ -79,6 +89,8 @@ int main(int argc, char *argv[])
 			args[0] = "./performance1_helper";
 			args[1] = NULL;
 
+			/* Start the timer */
+			RDTSCP(*start);
 			execv(args[0], args);
 
 			fprintf(stderr, "Failed to run helper program!!\n");
@@ -91,13 +103,6 @@ int main(int argc, char *argv[])
 			/* Close read end of write pipe */
 			close(to_child[0]);
 
-			/* Give the program the start value */
-			if(write(to_child[1], &start, sizeof(ull)) != sizeof(ull))
-			{
-				printf("Write failed!\n");
-				exit(1);
-			}
-
 			int status = 0;
 			/* Wait for the child to finish */
 			if(waitpid(-1, &status, 0) != pid)
@@ -106,13 +111,15 @@ int main(int argc, char *argv[])
 				return 0;
 			}
 
-			/* Read the response */
-			int rd = read(back[0], &diff, sizeof(ull));
+			/* Read end the response */
+			int rd = read(back[0], &end, sizeof(ull));
 			if(rd != sizeof(ull))
 			{
 				printf("Read failed! %d\n", rd);
 				return -1;
 			}
+
+			diff = end - *start;
 
 			/* Was the last run significant?  */
 			if(diff < best)
