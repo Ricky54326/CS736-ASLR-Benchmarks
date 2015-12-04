@@ -2,20 +2,27 @@
 performance1
 performance2
 performance3
-performance3_helper
+*_helper
 performance4
-performance4_helper
 calc
 entropy1
 entropy2
 entropy3
 entropy4
+run_test
+sub
+write
+test
+
 
 # Temporary files
 *.swp
-*.core
 
 # Junk files
 output.txt
 child.txt
 parent.txt
+*-output.txt
+*-output-uniq.txt
+*.sql
+*.sql-journal
