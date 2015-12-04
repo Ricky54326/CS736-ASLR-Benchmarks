@@ -4,8 +4,12 @@ INCLUDE := -I include
 
 CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
 
+APERFORMANCE := \
+	write
+
 PERFORMANCE := \
 	performance1 \
+	performance1_helper \
 	performance2 \
 	performance3 \
 	performance3_helper \
@@ -22,10 +26,10 @@ ENTROPY := \
 UTIL := \
 	calc
 
-CLEAN := $(PERFORMANCE)	$(UTIL) $(ENTROPY)
+CLEAN := $(APERFORMANCE) $(PERFORMANCE) $(UTIL) $(ENTROPY)
 JUNK := output.txt child.txt parent.txt
 
-all: $(PERFORMANCE) $(UTIL) $(ENTROPY)
+all: $(APERFORMANCE) $(PERFORMANCE) $(UTIL) $(ENTROPY)
 
 performance1_helper:
 	$(CC) $(CFLAGS) $(INCLUDE) -nostdlib performance/performance1_helper.c -o $@ write
