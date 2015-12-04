@@ -27,10 +27,15 @@ JUNK := output.txt child.txt parent.txt
 
 all: $(PERFORMANCE) $(UTIL) $(ENTROPY)
 
+performance1_helper:
+	$(CC) $(CFLAGS) $(INCLUDE) -nostdlib performance/performance1_helper.c -o $@ write
+
 %: entropy/%.c
 	$(CC) $(CFLAGS) $(INCLUDE)  $< -o $@
 %: performance/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
+%: performance/%.S
+	$(CC) $(CFLAGS) $(INCLUDE) $< -c -o $@
 %: util/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 
