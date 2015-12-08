@@ -8,6 +8,7 @@ typedef unsigned long long ull;
 #define PARENT_FILE "parent.txt"
 #define CHILD_FILE "child.txt"
 #define OUTPUT_FILE "output.txt"
+#define RUNS 5000000
 
 uint low;
 uint high;

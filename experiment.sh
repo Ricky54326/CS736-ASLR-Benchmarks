@@ -11,6 +11,7 @@ SPEED=$(cat /proc/cpuinfo | grep "cpu MHz" | head -n 1 | cut -d ":" -f 2)
 SPEED="3200.000"
 echo "$SPEED MHz"
 
+date
 printf "Rebuilding...\t\t\t\t\t\t\t\t"
 make clean all > /dev/null
 echo "[ OK ]"
@@ -30,3 +31,4 @@ FAST=$($TEST ./performance3)
 printf "Performance test 4: "
 FAST=$($TEST ./performance4)
 ./calc -s $SPEED $FAST
+date

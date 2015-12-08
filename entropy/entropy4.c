@@ -15,7 +15,7 @@
 #define DB_COUNT	1
 
 /* Set this if you want a custom amount of runs done */
-// #define SET_RUNS 100000
+#define SET_RUNS 10000
 
 #define CBLACK  "\x1B[0m"
 #define CGREEN  "\x1B[32m"
@@ -159,11 +159,11 @@ void execute_insert(uint64_t* vals, int count, sqlite3* db)
 		if(x == 0)
 		{
 			snprintf(sub_query, 128, 
-				"SELECT \'0x%lu\' AS \'addr\' ",
+				"SELECT \'0x%llx\' AS \'addr\' ",
 				vals[0]);
 		} else {
 			snprintf(sub_query, 128, 
-                                "UNION ALL SELECT \'0x%lu\' ",
+                                "UNION ALL SELECT \'0x%llx\' ",
                                 vals[x]);
 		}
 

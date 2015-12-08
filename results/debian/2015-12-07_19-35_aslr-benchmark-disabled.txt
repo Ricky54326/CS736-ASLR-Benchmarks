@@ -1,0 +1,8 @@
+Current cpu speed ... 3200.000 MHz
+Mon Dec  7 23:42:00 CST 2015
+Rebuilding...								[ OK ]
+Performance test 1: 25766.200000
+Performance test 2: 2962.500000
+Performance test 3: 630.000000
+Performance test 4: 20301.200000
+Tue Dec  8 00:36:17 CST 2015
