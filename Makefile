@@ -1,6 +1,7 @@
 CC := gcc48
-CFLAGS := -pthread -ggdb -fPIE
+CFLAGS := -pthread -ggdb -gdwarf-2
 INCLUDE := -I include
+LIBS := -lsqlite3
 
 CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
 
@@ -35,7 +36,7 @@ performance1_helper:
 	$(CC) $(CFLAGS) $(INCLUDE) -nostdlib performance/performance1_helper.c -o $@ write
 
 %: entropy/%.c
-	$(CC) $(CFLAGS) $(INCLUDE)  $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE)  $< -o $@ $(LIBS)
 %: performance/%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 %: performance/%.S
