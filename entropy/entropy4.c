@@ -15,7 +15,7 @@
 #define DB_COUNT	1
 
 /* Set this if you want a custom amount of runs done */
-#define SET_RUNS 10000
+#define SET_RUNS 10
 
 #define CBLACK  "\x1B[0m"
 #define CGREEN  "\x1B[32m"

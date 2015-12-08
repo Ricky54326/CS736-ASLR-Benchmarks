@@ -1,0 +1,51 @@
+****** STACK ANALYSIS ******
+Estimated bits: 16
+Opening databases...							[ OK ]
+Possible values: 0x10000
+Runs:            0xa
+Running with 4 threads max
+[[32m 0[0m%] Run [34m0[0m out of 10[[32m 0[0m%] Run [34m0[0m out of 10[[32m 0[0m%] Run [34m0[0m out of 10[[32m 0[0m%] Run [34m0[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[32m
+Runs Complete!
+[0mMerging all databases...
+Elapsed time: 2 seconds
+Patterns encountered: 0
+Highest power of 2:   64
+Free bits:
+    |--------------|                                            
+0000111111111111111100000000000000000000000000000000000000000000
+LSB                                                          MSB
+
+****** HEAP ANALYSIS ******
+Estimated bits: 12
+Opening databases...							[ OK ]
+Possible values: 0x1000
+Runs:            0xa
+Running with 4 threads max
+[[32m 0[0m%] Run [34m0[0m out of 10[[32m 0[0m%] Run [34m0[0m out of 10[[32m 0[0m%] Run [34m0[0m out of 10[[32m 0[0m%] Run [34m0[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[32m
+Runs Complete!
+[0mMerging all databases...
+Elapsed time: 1 seconds
+Patterns encountered: 0
+Highest power of 2:   64
+Free bits:
+                      |----------|                              
+0000000000000000000000111111111111000000000000000000000000000000
+LSB                                                          MSB
+
+****** CODE ANALYSIS ******
+Estimated bits: 0
+Opening databases...							[ OK ]
+Possible values: 0x1
+Runs:            0xa
+Running with 4 threads max
+[[32m 0[0m%] Run [34m0[0m out of 10[[32m 0[0m%] Run [34m0[0m out of 10[[32m 0[0m%] Run [34m0[0m out of 10[[32m 0[0m%] Run [34m0[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m10[0m%] Run [34m1[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m20[0m%] Run [34m2[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m30[0m%] Run [34m3[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m40[0m%] Run [34m4[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m50[0m%] Run [34m5[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m60[0m%] Run [34m6[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m70[0m%] Run [34m7[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[[32m80[0m%] Run [34m8[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[[32m90[0m%] Run [34m9[0m out of 10[32m
+Runs Complete!
+[0mMerging all databases...
+Elapsed time: 1 seconds
+Patterns encountered: 0
+Highest power of 2:   64
+Free bits:
+                                                                
+0000000000000000000000000000000000000000000000000000000000000000
+LSB                                                          MSB
+
