@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 	ull min = (ull)-1;
 
 	int x;
-	for(x = 0;x < 1000000;x++)
+	for(x = 0;x < RUNS;x++)
 	{
 		/* Page size on x86 is 4096 */
 

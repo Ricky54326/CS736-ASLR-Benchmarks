@@ -1,0 +1,6 @@
+Current cpu speed ... 3200.000 MHz
+Rebuilding...								[ OK ]
+Performance test 1: 80316.200000
+Performance test 2: 4401.200000
+Performance test 3: 1087.500000
+Performance test 4: 2782.500000

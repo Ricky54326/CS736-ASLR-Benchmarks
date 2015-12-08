@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
 	int x;
 	// for(x = 0; x < 10; x++)
-	for(x = 0; x < 1000000; x++)
+	for(x = 0; x < RUNS; x++)
 	{
 		int to_child[2]; /* Create a pipe to tell child the start */
 		if(pipe(to_child))
