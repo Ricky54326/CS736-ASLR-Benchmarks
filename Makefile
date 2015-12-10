@@ -1,5 +1,5 @@
 CC := gcc48
-CFLAGS := -pthread -ggdb -fPIE
+CFLAGS := -pthread -ggdb -fPIE -gdwarf-2
 INCLUDE := -I include
 
 CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
@@ -32,7 +32,7 @@ JUNK := output.txt child.txt parent.txt
 all: $(APERFORMANCE) $(PERFORMANCE) $(UTIL) $(ENTROPY)
 
 performance1_helper:
-	$(CC) $(CFLAGS) $(INCLUDE) -nostdlib performance/performance1_helper.c -o $@ write
+	$(CC) $(CFLAGS) $(INCLUDE) performance/performance1_helper.c -o $@ write
 
 %: entropy/%.c
 	$(CC) $(CFLAGS) $(INCLUDE)  $< -o $@

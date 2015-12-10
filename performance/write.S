@@ -1,20 +1,53 @@
+.globl test
+test:
+	push	%rbp
+	mov	%rsp, %rbp
+
+	push	%rdi
+	push	%rsi
+	push	%rdx
+
+	mov	$0x01, %rdi
+	xor	%rsi, %rsi
+	mov	%rsi, %rdx
+
+	call	sys_write
+
+	pop	%rdx
+	pop	%rsi
+	pop	%rdi
+
+	mov	%rbp, %rsp
+	pop	%rbp
+
+	ret
+
 .globl sys_write
 sys_write:
 	push	%rbp
 	mov	%rsp, %rbp
 
-	push	%rbx
+# Save the parameters
+	push	%rdi
+	push	%rsi
 	push	%rdx
 
-	mov	%rdi, %rbx
-	mov	%rsi, %rcx
-	mov	%rdx, %rdx
-	movl	$0x04, %eax
+	push	%rcx
+	push	%r11
+
+# setup the system call
+	mov	$4, %rax
 	int 	$0x80
 
-	pop	%rdx
-	pop	%rbx
+	pop	%r11
+	pop	%rcx
 
+# Restore the variables	
+	pop	%rdx
+	pop	%rsi
+	pop	%rdi
+
+# Leave
 	mov	%rbp, %rsp
 	pop	%rbp
 	ret
