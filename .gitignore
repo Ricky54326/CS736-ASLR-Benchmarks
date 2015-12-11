@@ -13,6 +13,7 @@ run_test
 sub
 write
 test
+reformat
 
 
 # Temporary files

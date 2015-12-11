@@ -28,7 +28,8 @@ ENTROPY := \
 UTIL := \
 	calc \
 	sub \
-	run_test
+	run_test \
+	reformat
 
 CLEAN := $(PERFORMANCE)	$(APERFORMANCE) $(UTIL) $(ENTROPY)
 JUNK := output.txt child.txt parent.txt
