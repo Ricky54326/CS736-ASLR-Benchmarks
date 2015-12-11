@@ -7,7 +7,7 @@
 
 #define TMP "/tmp/reformat.tmp"
 
-int readln(int fd, char* dst, size_t sz)
+static int readln(int fd, char* dst, size_t sz)
 {
 	if(sz == 0 || dst == NULL) return 0;
 
@@ -37,7 +37,7 @@ int readln(int fd, char* dst, size_t sz)
 	return pos;
 }
 
-void file_cp(const char* src, const char* dst)
+static void file_cp(const char* src, const char* dst)
 {
 	char buffer[512];
 
@@ -55,16 +55,34 @@ void file_cp(const char* src, const char* dst)
 	close(dst_fd);
 }
 
+static void to_lower(char* dst, const char* src, size_t sz)
+{
+	memset(dst, 0, sz);
+	int x;
+	for(x = 0;x < sz && x < strlen(src);x++)
+		dst[x] = src[x];
+}
+
+#define OUT_HEX 0x01
+#define OUT_DEC 0x02
+#define OUT_OCT 0x03
+
 int main(int argc, char** argv)
 {
 	if(argc < 4)
 	{
-		printf("Usage: ./reformat -f [file] [shift amount]\n");
+		printf(
+	"Usage: ./reformat [-o <output-type>] -f <file> <shift amount>\n"
+	"\tParameters: <required> [optional]\n"
+	"\n"
+	"\tValid output formats: dec, hex\n"
+	"\n");
 		return 1;
 	}
 
 	char* file = NULL;
 	int amount = -1;
+	char output_type = OUT_HEX; 
 
 	int x;
 	for(x = 1;x < argc;x++)
@@ -73,6 +91,21 @@ int main(int argc, char** argv)
 		{
 			file = argv[x + 1];
 			x++;
+		} else if(!strncmp(argv[x], "-o", 2))
+		{
+			char out_fmt[16];
+			to_lower(argv[x + 1], out_fmt, 16);
+			if(!strncmp(out_fmt, "dec", 3))
+			{
+				output_type = OUT_HEX;
+			} else if(!strncmp(out_fmt, "hex", 3))
+			{
+				output_type = OUT_DEC;
+			} else {
+				printf("reformat: %s invalid format.\n",
+					out_fmt);
+			}
+			
 		} else {
 			amount = atoi(argv[x]);
 		}
@@ -120,8 +153,19 @@ int main(int argc, char** argv)
 		char* res;
 		addr = strtoul(result, &res, 16);
 		addr >>= amount;
-		
-		snprintf(formatted, 128, "0x%lx\n", addr);
+	
+		switch(output_type)
+		{
+			case OUT_DEC:
+				snprintf(formatted, 128, "%lu\n", addr);
+				break;
+			case OUT_HEX:
+				snprintf(formatted, 128, "0x%lx\n", addr);
+				break;
+			default:
+				printf("reformat: invalid output mode.\n");
+				return 1;
+		}	
 		write(fd_tmp, formatted, strlen(formatted));
 	}
 
