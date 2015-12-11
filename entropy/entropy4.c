@@ -159,11 +159,11 @@ void execute_insert(uint64_t* vals, int count, sqlite3* db)
 		if(x == 0)
 		{
 			snprintf(sub_query, 128, 
-				"SELECT \'0x%llx\' AS \'addr\' ",
+				"SELECT \'0x%lx\' AS \'addr\' ",
 				vals[0]);
 		} else {
 			snprintf(sub_query, 128, 
-                                "UNION ALL SELECT \'0x%llx\' ",
+                                "UNION ALL SELECT \'0x%lx\' ",
                                 vals[x]);
 		}
 
