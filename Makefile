@@ -25,7 +25,8 @@ ENTROPY := \
 
 
 UTIL := \
-	calc
+	calc \
+	reformat
 
 CLEAN := $(APERFORMANCE) $(PERFORMANCE) $(UTIL) $(ENTROPY)
 JUNK := output.txt child.txt parent.txt
