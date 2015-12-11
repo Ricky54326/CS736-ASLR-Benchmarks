@@ -1,0 +1,45 @@
+****** STACK ANALYSIS ******
+Estimated bits: 30
+Opening databases...							[ OK ]
+Possible values: 0x40000000
+Runs:            0x2710
+Running with 4 threads max
+Runs Complete!
+Elapsed time: 16 seconds
+Patterns encountered: 39679
+Highest power of 2:   16
+Free bits:
+    |----------------------------|                              
+0000111111111111111111111111111111000000000000000000000000000000
+LSB                                                          MSB
+
+****** HEAP ANALYSIS ******
+Estimated bits: 29
+Opening databases...							[ OK ]
+Possible values: 0x20000000
+Runs:            0x2710
+Running with 4 threads max
+Runs Complete!
+Elapsed time: 15 seconds
+Patterns encountered: 39674
+Highest power of 2:   16
+Free bits:
+            |---------------------------|                       
+0000000000001111111111111111111111111111100000000000000000000000
+LSB                                                          MSB
+
+****** CODE ANALYSIS ******
+Estimated bits: 29
+Opening databases...							[ OK ]
+Possible values: 0x20000000
+Runs:            0x2710
+Running with 4 threads max
+Runs Complete!
+Elapsed time: 15 seconds
+Patterns encountered: 39673
+Highest power of 2:   16
+Free bits:
+            |---------------------------|                       
+0000000000001111111111111111111111111111100000000000000000000000
+LSB                                                          MSB
+
