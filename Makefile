@@ -1,7 +1,7 @@
 CC := gcc48
-CFLAGS := -ggdb -gdwarf-2
+CFLAGS := -ggdb -gdwarf-2 -pthread
 INCLUDE := -I include
-LIBS := -lsqlite3 -pthread
+LIBS := -lsqlite3
 
 CFLAGS := $(CFLAGS) $(BUILD_FLAGS)
 

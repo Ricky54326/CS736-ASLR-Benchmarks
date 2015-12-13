@@ -1,0 +1,51 @@
+****** STACK ANALYSIS ******
+Estimated bits: 41
+Opening databases...							[ OK ]
+Possible values: 0x200
+Runs:            0x2710
+Running with 4 threads max
+[[32m 0[0m%] Run [34m0[0m out of 10000[[32m 2[0m%] Run [34m248[0m out of 10000[[32m 4[0m%] Run [34m496[0m out of 10000[[32m 7[0m%] Run [34m744[0m out of 10000[[32m 9[0m%] Run [34m992[0m out of 10000[[32m12[0m%] Run [34m1240[0m out of 10000[[32m14[0m%] Run [34m1488[0m out of 10000[[32m17[0m%] Run [34m1736[0m out of 10000[[32m19[0m%] Run [34m1984[0m out of 10000[[32m22[0m%] Run [34m2232[0m out of 10000[[32m24[0m%] Run [34m2480[0m out of 10000[[32m27[0m%] Run [34m2728[0m out of 10000[[32m29[0m%] Run [34m2976[0m out of 10000[[32m32[0m%] Run [34m3224[0m out of 10000[[32m34[0m%] Run [34m3472[0m out of 10000[[32m37[0m%] Run [34m3720[0m out of 10000[[32m39[0m%] Run [34m3968[0m out of 10000[[32m42[0m%] Run [34m4216[0m out of 10000[[32m44[0m%] Run [34m4464[0m out of 10000[[32m47[0m%] Run [34m4712[0m out of 10000[[32m49[0m%] Run [34m4960[0m out of 10000[[32m52[0m%] Run [34m5208[0m out of 10000[[32m54[0m%] Run [34m5456[0m out of 10000[[32m57[0m%] Run [34m5704[0m out of 10000[[32m59[0m%] Run [34m5952[0m out of 10000[[32m62[0m%] Run [34m6200[0m out of 10000[[32m64[0m%] Run [34m6448[0m out of 10000[[32m66[0m%] Run [34m6696[0m out of 10000[[32m69[0m%] Run [34m6944[0m out of 10000[[32m71[0m%] Run [34m7192[0m out of 10000[[32m74[0m%] Run [34m7440[0m out of 10000[[32m76[0m%] Run [34m7688[0m out of 10000[[32m79[0m%] Run [34m7936[0m out of 10000[[32m81[0m%] Run [34m8184[0m out of 10000[[32m84[0m%] Run [34m8432[0m out of 10000[[32m86[0m%] Run [34m8680[0m out of 10000[[32m89[0m%] Run [34m8928[0m out of 10000[[32m91[0m%] Run [34m9176[0m out of 10000[[32m94[0m%] Run [34m9424[0m out of 10000[[32m96[0m%] Run [34m9672[0m out of 10000[[32m99[0m%] Run [34m9920[0m out of 10000[32m
+Runs Complete!
+[0mMerging all databases...
+Elapsed time: 41 seconds
+Patterns encountered: 39680
+Highest power of 2:   16
+Free bits:
+    |---------------------------------------|                   
+0000111111111111111111111111111111111111111110000000000000000000
+LSB                                                          MSB
+
+****** HEAP ANALYSIS ******
+Estimated bits: 21
+Opening databases...							[ OK ]
+Possible values: 0x200000
+Runs:            0x2710
+Running with 4 threads max
+[[32m 0[0m%] Run [34m0[0m out of 10000[[32m 2[0m%] Run [34m248[0m out of 10000[[32m 4[0m%] Run [34m496[0m out of 10000[[32m 7[0m%] Run [34m744[0m out of 10000[[32m 9[0m%] Run [34m992[0m out of 10000[[32m12[0m%] Run [34m1240[0m out of 10000[[32m14[0m%] Run [34m1488[0m out of 10000[[32m17[0m%] Run [34m1736[0m out of 10000[[32m19[0m%] Run [34m1984[0m out of 10000[[32m22[0m%] Run [34m2232[0m out of 10000[[32m24[0m%] Run [34m2480[0m out of 10000[[32m27[0m%] Run [34m2728[0m out of 10000[[32m29[0m%] Run [34m2976[0m out of 10000[[32m32[0m%] Run [34m3224[0m out of 10000[[32m34[0m%] Run [34m3472[0m out of 10000[[32m37[0m%] Run [34m3720[0m out of 10000[[32m39[0m%] Run [34m3968[0m out of 10000[[32m42[0m%] Run [34m4216[0m out of 10000[[32m44[0m%] Run [34m4464[0m out of 10000[[32m47[0m%] Run [34m4712[0m out of 10000[[32m49[0m%] Run [34m4960[0m out of 10000[[32m52[0m%] Run [34m5208[0m out of 10000[[32m54[0m%] Run [34m5456[0m out of 10000[[32m57[0m%] Run [34m5704[0m out of 10000[[32m59[0m%] Run [34m5952[0m out of 10000[[32m62[0m%] Run [34m6200[0m out of 10000[[32m64[0m%] Run [34m6448[0m out of 10000[[32m66[0m%] Run [34m6696[0m out of 10000[[32m69[0m%] Run [34m6944[0m out of 10000[[32m71[0m%] Run [34m7192[0m out of 10000[[32m74[0m%] Run [34m7440[0m out of 10000[[32m76[0m%] Run [34m7688[0m out of 10000[[32m79[0m%] Run [34m7936[0m out of 10000[[32m81[0m%] Run [34m8184[0m out of 10000[[32m84[0m%] Run [34m8432[0m out of 10000[[32m86[0m%] Run [34m8680[0m out of 10000[[32m89[0m%] Run [34m8928[0m out of 10000[[32m91[0m%] Run [34m9176[0m out of 10000[[32m94[0m%] Run [34m9424[0m out of 10000[[32m96[0m%] Run [34m9672[0m out of 10000[[32m99[0m%] Run [34m9920[0m out of 10000[32m
+Runs Complete!
+[0mMerging all databases...
+Elapsed time: 45 seconds
+Patterns encountered: 38953
+Highest power of 2:   16
+Free bits:
+                      |-------------------|                     
+0000000000000000000000111111111111111111111000000000000000000000
+LSB                                                          MSB
+
+****** CODE ANALYSIS ******
+Estimated bits: 0
+Opening databases...							[ OK ]
+Possible values: 0x1
+Runs:            0x2710
+Running with 4 threads max
+[[32m 0[0m%] Run [34m0[0m out of 10000[[32m 2[0m%] Run [34m248[0m out of 10000[[32m 4[0m%] Run [34m496[0m out of 10000[[32m 7[0m%] Run [34m744[0m out of 10000[[32m 9[0m%] Run [34m992[0m out of 10000[[32m12[0m%] Run [34m1240[0m out of 10000[[32m14[0m%] Run [34m1488[0m out of 10000[[32m17[0m%] Run [34m1736[0m out of 10000[[32m19[0m%] Run [34m1984[0m out of 10000[[32m22[0m%] Run [34m2232[0m out of 10000[[32m24[0m%] Run [34m2480[0m out of 10000[[32m27[0m%] Run [34m2728[0m out of 10000[[32m29[0m%] Run [34m2976[0m out of 10000[[32m32[0m%] Run [34m3224[0m out of 10000[[32m34[0m%] Run [34m3472[0m out of 10000[[32m37[0m%] Run [34m3720[0m out of 10000[[32m39[0m%] Run [34m3968[0m out of 10000[[32m42[0m%] Run [34m4216[0m out of 10000[[32m44[0m%] Run [34m4464[0m out of 10000[[32m47[0m%] Run [34m4712[0m out of 10000[[32m49[0m%] Run [34m4960[0m out of 10000[[32m52[0m%] Run [34m5208[0m out of 10000[[32m54[0m%] Run [34m5456[0m out of 10000[[32m57[0m%] Run [34m5704[0m out of 10000[[32m59[0m%] Run [34m5952[0m out of 10000[[32m62[0m%] Run [34m6200[0m out of 10000[[32m64[0m%] Run [34m6448[0m out of 10000[[32m66[0m%] Run [34m6696[0m out of 10000[[32m69[0m%] Run [34m6944[0m out of 10000[[32m71[0m%] Run [34m7192[0m out of 10000[[32m74[0m%] Run [34m7440[0m out of 10000[[32m76[0m%] Run [34m7688[0m out of 10000[[32m79[0m%] Run [34m7936[0m out of 10000[[32m81[0m%] Run [34m8184[0m out of 10000[[32m84[0m%] Run [34m8432[0m out of 10000[[32m86[0m%] Run [34m8680[0m out of 10000[[32m89[0m%] Run [34m8928[0m out of 10000[[32m91[0m%] Run [34m9176[0m out of 10000[[32m94[0m%] Run [34m9424[0m out of 10000[[32m96[0m%] Run [34m9672[0m out of 10000[[32m99[0m%] Run [34m9920[0m out of 10000[32m
+Runs Complete!
+[0mMerging all databases...
+Elapsed time: 46 seconds
+Patterns encountered: 1
+Highest power of 2:   0
+Free bits:
+                                                                
+0000000000000000000000000000000000000000000000000000000000000000
+LSB                                                          MSB
+
