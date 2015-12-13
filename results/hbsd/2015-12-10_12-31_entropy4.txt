@@ -1,0 +1,3 @@
+Stack bits: 41
+Heap bits: 21
+Code bits: 0
