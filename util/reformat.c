@@ -72,7 +72,7 @@ int main(int argc, char** argv)
 	if(argc < 4)
 	{
 		printf(
-	"Usage: ./reformat [-o <output-type>] [-l <length>] -f <file> <shift amount>\n"
+	"Usage: ./reformat [-p <padding>] [-o <output-type>] [-l <length>] -f <file> <shift amount>\n"
 	"\tParameters: <required> [optional]\n"
 	"\n"
 	"\tValid output formats: dec, hex\n"
@@ -83,6 +83,9 @@ int main(int argc, char** argv)
 	char* file = NULL;
 	int amount = -1;
 	int length = -1;
+	int padding = -1;
+	char padding_str[128];
+	memset(padding_str, 128, 0);
 	char output_type = OUT_HEX; 
 
 	int x;
@@ -111,10 +114,17 @@ int main(int argc, char** argv)
 		{
 			length = atoi(argv[x + 1]);
 			x++;
+		} else if(!strncmp(argv[x], "-p", 2))
+		{
+			padding = atoi(argv[x + 1]);
+			x++;
 		} else {
 			amount = atoi(argv[x]);
 		}
 	}
+	
+	if(padding > 0)
+		snprintf(padding_str, 128, "%d", padding);
 
 	if(file == NULL)
 	{
@@ -162,19 +172,35 @@ int main(int argc, char** argv)
 
 		if(length > 0)
 			addr &= length_mask;
+
+		char fmt_str[128];
+		memset(fmt_str, 0, 128);
 	
 		switch(output_type)
 		{
 			case OUT_DEC:
-				snprintf(formatted, 128, "%lu\n", addr);
+				if(padding > 0)
+				{
+					snprintf(fmt_str, 128, "%%0");
+					strncat(fmt_str, padding_str, 128);
+					strncat(fmt_str, "ld\n", 128);
+				} else snprintf(fmt_str, 128, "%%lu\n");
 				break;
 			case OUT_HEX:
-				snprintf(formatted, 128, "0x%lx\n", addr);
+				if(padding > 0)
+				{
+					snprintf(fmt_str, 128, "0x%%0");
+					strncat(fmt_str, padding_str, 128);
+					strncat(fmt_str, "lx\n", 128);
+				} else snprintf(fmt_str, 128, "0x%%lx\n");
 				break;
 			default:
 				printf("reformat: invalid output mode.\n");
 				return 1;
 		}	
+
+		snprintf(formatted, 128, fmt_str, addr);
+
 		write(fd_tmp, formatted, strlen(formatted));
 	}
 
