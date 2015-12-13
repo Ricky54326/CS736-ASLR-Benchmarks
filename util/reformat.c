@@ -72,7 +72,7 @@ int main(int argc, char** argv)
 	if(argc < 4)
 	{
 		printf(
-	"Usage: ./reformat [-o <output-type>] -f <file> <shift amount>\n"
+	"Usage: ./reformat [-o <output-type>] [-l <length>] -f <file> <shift amount>\n"
 	"\tParameters: <required> [optional]\n"
 	"\n"
 	"\tValid output formats: dec, hex\n"
@@ -82,6 +82,7 @@ int main(int argc, char** argv)
 
 	char* file = NULL;
 	int amount = -1;
+	int length = -1;
 	char output_type = OUT_HEX; 
 
 	int x;
@@ -106,6 +107,10 @@ int main(int argc, char** argv)
 					out_fmt);
 			}
 			
+		} else if(!strncmp(argv[x], "-l", 2))
+		{
+			length = atoi(argv[x + 1]);
+			x++;
 		} else {
 			amount = atoi(argv[x]);
 		}
@@ -145,6 +150,7 @@ int main(int argc, char** argv)
 
 	char result[128];
 	uintptr_t addr;
+	int length_mask = (1 << (length + 1)) - 1;
 
 	while(readln(fd, result, 128) > 0)
 	{
@@ -153,6 +159,9 @@ int main(int argc, char** argv)
 		char* res;
 		addr = strtoul(result, &res, 16);
 		addr >>= amount;
+
+		if(length > 0)
+			addr &= length_mask;
 	
 		switch(output_type)
 		{
